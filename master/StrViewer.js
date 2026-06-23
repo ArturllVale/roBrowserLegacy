@@ -11,7 +11,14 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __esmMin = (fn, res) => () => (fn && (res = fn(fn = 0)), res);
+var __esmMin = (fn, res, err) => () => {
+	if (err) throw err[0];
+	try {
+		return fn && (res = fn(fn = 0)), res;
+	} catch (e) {
+		throw err = [e], e;
+	}
+};
 var __commonJSMin = (cb, mod) => () => (mod || (cb((mod = { exports: {} }).exports, mod), cb = null), mod.exports);
 var __exportAll = (all, no_symbols) => {
 	let target = {};
@@ -433,7 +440,7 @@ var init_iconv_lite = __esmMin((() => {
 			if (!Buffer2.TYPED_ARRAY_SUPPORT && typeof console !== "undefined" && typeof console.error === "function") console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support.");
 			function typedArraySupport() {
 				try {
-					const arr = new Uint8Array(1);
+					const arr = /* @__PURE__ */ new Uint8Array(1);
 					const proto = { foo: function() {
 						return 42;
 					} };
@@ -10730,10 +10737,10 @@ var init_CodepageManager = __esmMin((() => {
 		encode: function encode(str, charset = null) {
 			if (typeof str !== "string") {
 				console.error(`[TextEncoding.encode] Invalid input type: expected "string", got "${typeof str}".`, str);
-				return new Uint8Array(0);
+				return /* @__PURE__ */ new Uint8Array(0);
 			} else if (charset && !iconv.encodingExists(charset)) {
 				console.error(`[TextEncoding.decode] Invalid charset: "${charset}".`, str);
-				return new Uint8Array(0);
+				return /* @__PURE__ */ new Uint8Array(0);
 			}
 			return iconv.encode(str, charset || this.userCharset);
 		},
@@ -77797,17 +77804,20 @@ var init_preload_helper = __esmMin((() => {
 					reason
 				}))));
 			}
+			function importMetaResolve(specifier) {
+				if (import.meta.resolve) return import.meta.resolve(specifier);
+				return new URL(specifier, new URL("../../../src/node/plugins/importAnalysisBuild.ts", import.meta.url)).href;
+			}
 			promise = allSettled(deps.map((dep) => {
 				dep = assetsURL(dep, importerUrl);
+				dep = importMetaResolve(dep);
 				if (dep in seen) return;
 				seen[dep] = true;
 				const isCss = dep.endsWith(".css");
-				const cssSelector = isCss ? "[rel=\"stylesheet\"]" : "";
-				if (!!importerUrl) for (let i = links.length - 1; i >= 0; i--) {
+				for (let i = links.length - 1; i >= 0; i--) {
 					const link = links[i];
 					if (link.href === dep && (!isCss || link.rel === "stylesheet")) return;
 				}
-				else if (document.querySelector(`link[href="${dep}"]${cssSelector}`)) return;
 				const link = document.createElement("link");
 				link.rel = isCss ? "stylesheet" : scriptRel;
 				if (!isCss) link.as = "script";
@@ -98209,7 +98219,7 @@ var init_wasmoon_lua5_1 = __esmMin((() => {
 					1668509029 != G[0] && g("Runtime error: The application has corrupted its heap memory area (address zero)!");
 				}
 			}
-			var Ba = new Int16Array(1), Ca = new Int8Array(Ba.buffer);
+			var Ba = /* @__PURE__ */ new Int16Array(1), Ca = new Int8Array(Ba.buffer);
 			Ba[0] = 25459;
 			if (115 !== Ca[0] || 99 !== Ca[1]) throw "Runtime error: expected the system to be little-endian! (Run with -sSUPPORT_BIG_ENDIAN to bypass)";
 			var Da = [], Ea = [], Fa = [], Ga = !1;
@@ -98671,7 +98681,7 @@ var init_wasmoon_lua5_1 = __esmMin((() => {
 					return c;
 				},
 				lb(a) {
-					return a.m ? a.m.subarray ? a.m.subarray(0, a.o) : new Uint8Array(a.m) : new Uint8Array(0);
+					return a.m ? a.m.subarray ? a.m.subarray(0, a.o) : new Uint8Array(a.m) : /* @__PURE__ */ new Uint8Array(0);
 				},
 				h: {
 					C(a) {
@@ -100099,7 +100109,7 @@ var init_wasmoon_lua5_1 = __esmMin((() => {
 				nb(R.M(6, 0), rb);
 				Lb("/dev/tty", R.M(5, 0));
 				Lb("/dev/tty1", R.M(6, 0));
-				var a = new Uint8Array(1024), b = 0, c = () => {
+				var a = /* @__PURE__ */ new Uint8Array(1024), b = 0, c = () => {
 					0 === b && (b = cb(a).byteLength);
 					return a[--b];
 				};
@@ -164111,7 +164121,7 @@ var init_bson = __esmMin((() => {
 			return this.inspect(depth, options, inspect);
 		}
 	};
-	FLOAT = new Float64Array(1);
+	FLOAT = /* @__PURE__ */ new Float64Array(1);
 	FLOAT_BYTES = new Uint8Array(FLOAT.buffer, 0, 8);
 	FLOAT[0] = -1;
 	isBigEndian = FLOAT_BYTES[7] === 0;
@@ -166275,7 +166285,7 @@ var init_bson = __esmMin((() => {
 	JS_INT_MIN_LONG = Long.fromNumber(JS_INT_MIN);
 	allowedDBRefKeys = /^\$ref$|^\$id$|^\$db$/;
 	regexp = /\x00/;
-	ignoreKeys = new Set([
+	ignoreKeys = /* @__PURE__ */ new Set([
 		"$db",
 		"$ref",
 		"$id",
@@ -220503,7 +220513,7 @@ function Reset() {
 var _keys, _available, KeysTable, imul, PacketCrypt_default;
 var init_PacketCrypt = __esmMin((() => {
 	init_Configs();
-	_keys = new Uint32Array(3);
+	_keys = /* @__PURE__ */ new Uint32Array(3);
 	_available = false;
 	KeysTable = {
 		20101123: [
@@ -227877,7 +227887,7 @@ var init_gl_matrix = __esmMin((() => {
 	* @returns {vec3} resulting vector
 	*/
 	exports$1.mat4.multiplyVec3 = function(vec, mat) {
-		const out = new Float32Array(3);
+		const out = /* @__PURE__ */ new Float32Array(3);
 		const x = vec[0], y = vec[1], z = vec[2];
 		out[0] = mat[0] * x + mat[4] * y + mat[8] * z + mat[12];
 		out[1] = mat[1] * x + mat[5] * y + mat[9] * z + mat[13];
@@ -228469,7 +228479,7 @@ var init_Sprite = __esmMin((() => {
 		* The exact byte layout depends on the chosen packing below.
 		*/
 		convert32bPal(pal, flip = false) {
-			const pal32 = new Uint32Array(256);
+			const pal32 = /* @__PURE__ */ new Uint32Array(256);
 			for (let i = 0; i < 256; i++) {
 				const r = pal[i * 4 + 0];
 				const g = pal[i * 4 + 1];
@@ -229595,11 +229605,11 @@ var init_Altitude = __esmMin((() => {
 	_to = vec4$7.create();
 	_unit = vec3$6.create();
 	_matrix$7 = mat4$21.create();
-	buffer1x1 = new Float32Array(30);
-	buffer5x5 = new Float32Array(750);
-	buffer7x7 = new Float32Array(1470);
-	buffer13x13 = new Float32Array(5070);
-	tmp = new Float32Array(5);
+	buffer1x1 = /* @__PURE__ */ new Float32Array(30);
+	buffer5x5 = /* @__PURE__ */ new Float32Array(750);
+	buffer7x7 = /* @__PURE__ */ new Float32Array(1470);
+	buffer13x13 = /* @__PURE__ */ new Float32Array(5070);
+	tmp = /* @__PURE__ */ new Float32Array(5);
 	Altitude = class Altitude {
 		/**
 		* Initialize Altitude mesh
@@ -231025,7 +231035,7 @@ var init_SpriteRenderer = __esmMin((() => {
 					}
 				}
 			} else {
-				const pal32 = new Uint32Array(256);
+				const pal32 = /* @__PURE__ */ new Uint32Array(256);
 				for (let i = 0; i < 256; i++) {
 					if (i === 0) {
 						pal32[i] = 0;
@@ -231067,10 +231077,10 @@ var init_SpriteRenderer = __esmMin((() => {
 	_depthTest = true;
 	_texture$4 = null;
 	_usepal = null;
-	_pos$8 = new Int16Array(2);
-	_matrix$6 = new Float32Array(16);
-	_size$7 = new Float32Array(2);
-	_offset = new Float32Array(2);
+	_pos$8 = /* @__PURE__ */ new Int16Array(2);
+	_matrix$6 = /* @__PURE__ */ new Float32Array(16);
+	_size$7 = /* @__PURE__ */ new Float32Array(2);
+	_offset = /* @__PURE__ */ new Float32Array(2);
 	SpriteRenderer = class {
 		/**
 		* @type {function} functions to use to render
@@ -231091,26 +231101,26 @@ var init_SpriteRenderer = __esmMin((() => {
 		/**
 		* @type {Float32Array} sprite position in 3D world
 		*/
-		static position = new Float32Array(3);
+		static position = /* @__PURE__ */ new Float32Array(3);
 		/**
 		* @type {Float32Array} sprite color (color * color)
 		*/
-		static color = new Float32Array(4);
+		static color = /* @__PURE__ */ new Float32Array(4);
 		/**
 		* @type {Float32Array} sprite size
 		*/
-		static size = new Float32Array(2);
+		static size = /* @__PURE__ */ new Float32Array(2);
 		/**
 		* @type {Float32Array} sprite offset position
 		*/
-		static offset = new Float32Array(2);
+		static offset = /* @__PURE__ */ new Float32Array(2);
 		/**
 		* @type {object} sprite image information
 		*/
 		static image = {
 			texture: null,
 			palette: null,
-			size: new Float32Array(2)
+			size: /* @__PURE__ */ new Float32Array(2)
 		};
 		/**
 		* @type {object} sprite imageData (for 2D context)
@@ -232088,7 +232098,7 @@ var init_SkillEffect = __esmMin((() => {
 	init_SkillConst();
 	init_EntityManager();
 	init_JobConst();
-	CHAMPION_JOBS = new Set([
+	CHAMPION_JOBS = /* @__PURE__ */ new Set([
 		JobConst_default.MONK_H,
 		JobConst_default.SURA,
 		JobConst_default.SURA_H,
@@ -240961,7 +240971,7 @@ var init_ItemPreview = __esmMin((() => {
 			1,
 			1
 		]);
-		const _savedColor = new Float32Array(4);
+		const _savedColor = /* @__PURE__ */ new Float32Array(4);
 		const _animation = {
 			tick: 0,
 			frame: 0,
@@ -241016,7 +241026,7 @@ var init_ItemInfo$2 = __esmMin((() => {
 //#region src/UI/Components/ItemInfo/ItemInfo.css?raw
 var ItemInfo_default$1;
 var init_ItemInfo$1 = __esmMin((() => {
-	ItemInfo_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n.ItemInfo {\r\n	position: relative;\r\n	width: 280px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemInfo .container {\r\n	height: 140px;\r\n	position: relative;\r\n	box-shadow:\r\n		white 0px 0px 0px 3px inset,\r\n		rgb(192, 192, 192) 0px 0px 0px 4px inset;\r\n	background-repeat: no-repeat;\r\n	background-color: white;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .event_view {\r\n	position: absolute;\r\n}\r\n.ItemInfo .event_view .view {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	top: 6px;\r\n	left: 6px;\r\n}\r\n.ItemInfo .collection {\r\n	position: absolute;\r\n	top: 11px;\r\n	left: 10px;\r\n	width: 75px;\r\n	height: 100px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemInfo .title {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 86px;\r\n	width: 185px;\r\n	height: 14px;\r\n	padding-left: 4px;\r\n	padding-top: 6px;\r\n	text-shadow: 1px 1px 0px white;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n.ItemInfo .close {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 3px;\r\n	width: 11px;\r\n	height: 11px;\r\n	display: block;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n}\r\n.ItemInfo .description {\r\n	position: absolute;\r\n	top: 35px;\r\n	left: 100px;\r\n	line-height: 18px;\r\n	width: 170px;\r\n	height: 75px;\r\n	overflow-y: auto;\r\n}\r\n.ItemInfo .description .description-inner {\r\n	width: 150px;\r\n}\r\n.ItemInfo .extend {\r\n	position: absolute;\r\n	right: 4px;\r\n	bottom: 3px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.ItemInfo .cardlist {\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemInfo .cardlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .cardlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemInfo .cardlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemInfo .cardlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemInfo .cardlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemInfo .book_open {\r\n	margin-top: 6px;\r\n	margin-left: 7px;\r\n}\r\n.ItemInfo .book_read {\r\n	position: absolute;\r\n	margin-top: 7px;\r\n}\r\n\r\n.ItemInfo .overlay_open {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 7px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n.ItemInfo .overlay_read {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 27px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n\r\n.ItemInfo .optionlist {\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemInfo .optionlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .optionlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemInfo .optionlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemInfo .optionlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemInfo .optionlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemInfo .title.damaged {\r\n	text-shadow: red 1px 1px 0px;\r\n}\r\n\r\n.ItemInfo .preview-action {\r\n	padding-top: 115px;\r\n	padding-left: 9px;\r\n}\r\n\r\n.moveinfo-label {\r\n	color: #000000;\r\n	display: block;\r\n	text-decoration: underline;\r\n}\r\n\r\n#moveinfo-tooltip {\r\n	position: absolute;\r\n	display: none;\r\n	pointer-events: none;\r\n	z-index: 9999;\r\n	background: #e6e7ef;\r\n	border: 2px solid #bdbdee;\r\n	padding: 6px 8px;\r\n	color: #183984;\r\n	white-space: nowrap;\r\n	border-radius: 8px;\r\n}\r\n\r\n.ItemInfo .btn_mounting {\r\n	border: 0;\r\n	width: 80px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n";
+	ItemInfo_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n.ItemInfo {\r\n	position: relative;\r\n	width: 280px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemInfo .container {\r\n	height: 140px;\r\n	position: relative;\r\n	box-shadow:\r\n		white 0px 0px 0px 3px inset,\r\n		rgb(192, 192, 192) 0px 0px 0px 4px inset;\r\n	background-repeat: no-repeat;\r\n	background-color: white;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .event_view {\r\n	position: absolute;\r\n}\r\n.ItemInfo .event_view .view {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	top: 6px;\r\n	left: 6px;\r\n}\r\n.ItemInfo .collection {\r\n	position: absolute;\r\n	top: 11px;\r\n	left: 10px;\r\n	width: 75px;\r\n	height: 100px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemInfo .title {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 86px;\r\n	width: 185px;\r\n	height: 14px;\r\n	padding-left: 4px;\r\n	padding-top: 6px;\r\n	text-shadow: 1px 1px 0px white;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n.ItemInfo .close {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 3px;\r\n	width: 11px;\r\n	height: 11px;\r\n	display: block;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n}\r\n.ItemInfo .description {\r\n	position: absolute;\r\n	top: 35px;\r\n	left: 100px;\r\n	line-height: 18px;\r\n	width: 170px;\r\n	height: 75px;\r\n	overflow-y: auto;\r\n}\r\n.ItemInfo .description .description-inner {\r\n	width: 150px;\r\n	white-space: pre-wrap;\r\n}\r\n.ItemInfo .extend {\r\n	position: absolute;\r\n	right: 4px;\r\n	bottom: 3px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.ItemInfo .cardlist {\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemInfo .cardlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .cardlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemInfo .cardlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemInfo .cardlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemInfo .cardlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemInfo .book_open {\r\n	margin-top: 6px;\r\n	margin-left: 7px;\r\n}\r\n.ItemInfo .book_read {\r\n	position: absolute;\r\n	margin-top: 7px;\r\n}\r\n\r\n.ItemInfo .overlay_open {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 7px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n.ItemInfo .overlay_read {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 27px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n\r\n.ItemInfo .optionlist {\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemInfo .optionlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .optionlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemInfo .optionlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemInfo .optionlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemInfo .optionlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemInfo .title.damaged {\r\n	text-shadow: red 1px 1px 0px;\r\n}\r\n\r\n.ItemInfo .preview-action {\r\n	padding-top: 115px;\r\n	padding-left: 9px;\r\n}\r\n\r\n.moveinfo-label {\r\n	color: #000000;\r\n	display: block;\r\n	text-decoration: underline;\r\n}\r\n\r\n#moveinfo-tooltip {\r\n	position: absolute;\r\n	display: none;\r\n	pointer-events: none;\r\n	z-index: 9999;\r\n	background: #e6e7ef;\r\n	border: 2px solid #bdbdee;\r\n	padding: 6px 8px;\r\n	color: #183984;\r\n	white-space: nowrap;\r\n	border-radius: 8px;\r\n}\r\n\r\n.ItemInfo .btn_mounting {\r\n	border: 0;\r\n	width: 80px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/UIVersionManager.js
@@ -248240,7 +248250,7 @@ var init_SkillDescription = __esmMin((() => {
 	init_GUIComponent();
 	init_SkillDescription$2();
 	init_SkillDescription$1();
-	_allowedTags = new Set([
+	_allowedTags = /* @__PURE__ */ new Set([
 		"font",
 		"i",
 		"b"
@@ -259052,7 +259062,7 @@ var init_SwitchEquip = __esmMin((() => {
 			1,
 			1
 		]);
-		const _savedColor = new Float32Array(4);
+		const _savedColor = /* @__PURE__ */ new Float32Array(4);
 		const _animation = {
 			tick: 0,
 			frame: 0,
@@ -259593,7 +259603,10 @@ var init_InventoryV2 = __esmMin((() => {
 			InventoryV2._host.style.display = "none";
 		});
 		this._host.addEventListener("drop", onDrop$18);
-		this._host.addEventListener("dragover", (e) => e.stopImmediatePropagation());
+		this._host.addEventListener("dragover", (e) => {
+			e.stopImmediatePropagation();
+			e.preventDefault();
+		});
 		const content = root.querySelector(".container .content");
 		if (content) {
 			content.addEventListener("mouseover", (e) => {
@@ -260070,6 +260083,8 @@ function clearRefineStates() {
 	refine_no_zeny = 0;
 	refine_no_bsb = 0;
 	refine_new_mats = 0;
+	refine_current_chance = 0;
+	refine_current_zeny = 0;
 }
 /**
 * Stop event propagation
@@ -260252,6 +260267,8 @@ function onPopulateMaterials$1() {
 			Refine.ui.find(".chance_rate").text(DB.getMessage(3285).replace("%d%", material.chance));
 			Refine.ui.find(".refine_zeny").text(material.zeny);
 			Refine.ui.find(".refine_zeny_cont").text(material.zeny);
+			refine_current_chance = material.chance;
+			refine_current_zeny = material.zeny;
 			refine_item_mat = material.itemId;
 			refine_fee = material.zeny;
 			Refine.ui.find(".refine_cont").addClass("item").attr("data-index", material.itemId);
@@ -260315,6 +260332,8 @@ function selectMaterial(material, item) {
 		refine_can_cont = 0;
 	}
 	if (onCheckItemBroken()) refine_can_cont = 0;
+	refine_current_chance = material.chance;
+	refine_current_zeny = material.zeny;
 	Refine.ui.find(".chance_rate").text(DB.getMessage(3285).replace("%d%", material.chance));
 	Refine.ui.find(".refine_zeny_cont").text(material.zeny);
 	if (refine_can_cont && !refine_new_mats && !refine_item_broken) refine_result_div = refine_result ? "fail_refine_cont_enabled" : "success_refine_cont_enabled";
@@ -260546,6 +260565,8 @@ function onUpdateRefineUI(result) {
 	Refine.ui.find(".refine_text_cont").show();
 	if (refine_result_div) Refine.ui.find("." + refine_result_div).show();
 	if (refine_can_cont && !refine_new_mats && !refine_item_broken) {
+		Refine.ui.find(".chance_rate").text(DB.getMessage(3285).replace("%d%", refine_current_chance));
+		Refine.ui.find(".refine_zeny_cont").text(refine_current_zeny);
 		Refine.ui.find(".chance_rate").show();
 		Refine.ui.find(".refine_zeny_cont").show();
 	}
@@ -260554,6 +260575,10 @@ function onUpdateRefineUI(result) {
 	if (refine_no_bsb) showMessage$3(3245, 3, "error");
 	Refine.ui.find(".back_button").show();
 	Refine.ui.find(".refine_cont").show();
+	if (!refine_item_broken) {
+		const refineditem = InventoryController.getUI().getItemByIndex(refine_item_index);
+		if (refineditem) Refine.ui.find(".item_to_refine_name").text(DB.getItemName(refineditem));
+	}
 	Refine.ui.find(".item_to_refine_name").show();
 	refine_ongoing = 0;
 }
@@ -260666,7 +260691,7 @@ function onBroadcastRefineResult(pkt) {
 		Announce_default.set(message, "#FFB563");
 	}
 }
-var Refine, BSB_ITID, refiningMaterials, blacksmithBlessing, refine_item_index, refine_item_mat, refine_fee, refine_bsb, refine_result, refine_result_div, refine_can_cont, refine_no_mats, refine_no_zeny, refine_no_bsb, refine_item_broken, refine_new_mats, refine_ongoing, initialsuccess, currentLoopHandle, itemMessageMapping, images$1, Refine_default;
+var Refine, BSB_ITID, refiningMaterials, blacksmithBlessing, refine_item_index, refine_item_mat, refine_fee, refine_bsb, refine_result, refine_result_div, refine_can_cont, refine_no_mats, refine_no_zeny, refine_no_bsb, refine_item_broken, refine_new_mats, refine_ongoing, refine_current_chance, refine_current_zeny, initialsuccess, currentLoopHandle, itemMessageMapping, images$1, Refine_default;
 var init_Refine = __esmMin((() => {
 	init_DBManager();
 	init_Configs();
@@ -260703,6 +260728,8 @@ var init_Refine = __esmMin((() => {
 	refine_item_broken = 0;
 	refine_new_mats = 0;
 	refine_ongoing = 0;
+	refine_current_chance = 0;
+	refine_current_zeny = 0;
 	Refine.imageLoopTimeout = 0;
 	Refine.messageTimeOut = 0;
 	Refine.hammer = 0;
@@ -261664,7 +261691,7 @@ var init_StrEffect = __esmMin((() => {
 	D3DBLEND = {};
 	_program$19 = null;
 	_buffer$15 = null;
-	_bufferData = new Float32Array(16);
+	_bufferData = /* @__PURE__ */ new Float32Array(16);
 	_matrix$5 = mat4$18.create();
 	_lastAngle = -1;
 	PIXEL_TO_WORLD_Z = 1 / 5;
@@ -261678,10 +261705,10 @@ var init_StrEffect = __esmMin((() => {
 		mtpreset: 0,
 		delay: 0,
 		angle: 0,
-		color: new Float32Array(4),
-		pos: new Float32Array(2),
-		uv: new Float32Array(8),
-		xy: new Float32Array(8)
+		color: /* @__PURE__ */ new Float32Array(4),
+		pos: /* @__PURE__ */ new Float32Array(2),
+		uv: /* @__PURE__ */ new Float32Array(8),
+		xy: /* @__PURE__ */ new Float32Array(8)
 	};
 	StrEffect = class {
 		constructor(filename, position, startTick, texturePath) {
@@ -261783,7 +261810,7 @@ var init_StrEffect = __esmMin((() => {
 				mat4$18.rotateZ(_matrix$5, _matrix$5, -animat.angle / 180 * Math.PI);
 				_lastAngle = animat.angle;
 			}
-			const spriteOffset = new Float32Array(2);
+			const spriteOffset = /* @__PURE__ */ new Float32Array(2);
 			let verticalBase = .5;
 			if (this.ownerEntity) {
 				spriteOffset[0] = animat.pos[0] - 320 + (this.xOffset || 0) * PIXEL_TO_WORLD_Z * 35 * sizeScale;
@@ -263650,7 +263677,10 @@ var init_InventoryV3 = __esmMin((() => {
 			InventoryV3._host.style.display = "none";
 		});
 		this._host.addEventListener("drop", onDrop$17);
-		this._host.addEventListener("dragover", (e) => e.stopImmediatePropagation());
+		this._host.addEventListener("dragover", (e) => {
+			e.stopImmediatePropagation();
+			e.preventDefault();
+		});
 		const content = root.querySelector(".container .content");
 		if (content) {
 			content.addEventListener("mouseover", (e) => {
@@ -266208,7 +266238,7 @@ var init_EquipmentV0 = __esmMin((() => {
 			1,
 			1
 		]);
-		const _savedColor = new Float32Array(4);
+		const _savedColor = /* @__PURE__ */ new Float32Array(4);
 		const _animation = {
 			tick: 0,
 			frame: 0,
@@ -266726,7 +266756,7 @@ var init_EquipmentV1 = __esmMin((() => {
 			1,
 			1
 		]);
-		const _savedColor = new Float32Array(4);
+		const _savedColor = /* @__PURE__ */ new Float32Array(4);
 		const _animation = {
 			tick: 0,
 			frame: 0,
@@ -267257,7 +267287,7 @@ var init_EquipmentV2 = __esmMin((() => {
 			1,
 			1
 		]);
-		const _savedColor = new Float32Array(4);
+		const _savedColor = /* @__PURE__ */ new Float32Array(4);
 		const _animation = {
 			tick: 0,
 			frame: 0,
@@ -267830,7 +267860,7 @@ var init_EquipmentV3 = __esmMin((() => {
 			1,
 			1
 		]);
-		const _savedColor = new Float32Array(4);
+		const _savedColor = /* @__PURE__ */ new Float32Array(4);
 		const _animation = {
 			tick: 0,
 			frame: 0,
@@ -268563,7 +268593,7 @@ var init_EquipmentV4 = __esmMin((() => {
 			1,
 			1
 		]);
-		const _savedColor = new Float32Array(4);
+		const _savedColor = /* @__PURE__ */ new Float32Array(4);
 		const _animation = {
 			tick: 0,
 			frame: 0,
@@ -270470,9 +270500,9 @@ var init_Inflate = __esmMin((() => {
 		1,
 		15
 	]);
-	_codeLenCodeLengths = new Uint32Array(19);
-	_clean_codeLenCodeLengths = new Uint32Array(19);
-	_codeLengths = new Uint8Array(640);
+	_codeLenCodeLengths = /* @__PURE__ */ new Uint32Array(19);
+	_clean_codeLenCodeLengths = /* @__PURE__ */ new Uint32Array(19);
+	_codeLengths = /* @__PURE__ */ new Uint8Array(640);
 	lengthDecode = new Uint32Array([
 		3,
 		4,
@@ -272506,7 +272536,17 @@ var init_AIDriver = __esmMin((() => {
 				function distance(x1, y1, x2, y2) {
 					const dx = x2 - x1;
 					const dy = y2 - y1;
-					return dx * dx + dy * dy;
+					return Math.sqrt(dx * dx + dy * dy);
+				}
+				function canUseAISkill(entity) {
+					if (!entity || entity.action === entity.ACTION.DIE || entity.action === entity.ACTION.HURT) return false;
+					return [
+						entity.ACTION.IDLE,
+						entity.ACTION.WALK,
+						entity.ACTION.ATTACK,
+						entity.ACTION.ATTACK2,
+						entity.ACTION.ATTACK3
+					].some((action) => action >= 0 && action === entity.action);
 				}
 				ctx.GetActors = function() {
 					AIDriver.exec("status = MyState", isHoAI);
@@ -272517,7 +272557,7 @@ var init_AIDriver = __esmMin((() => {
 					if (res.length > 3) {
 						if (isHoAI ? AIDriver.HOM_AGGRESSIVE : AIDriver.MER_AGGRESSIVE) {
 							let closest = 0;
-							let lastDist = 1e3;
+							let lastDist = 32;
 							const thisentity = EntityManager.get(isHoAI ? SessionStorage_default.homunId : SessionStorage_default.mercId);
 							for (const item of res) if (item !== 0 && item !== SessionStorage_default.AID && item !== SessionStorage_default.homunId && item !== SessionStorage_default.mercId) {
 								const entity = EntityManager.get(item);
@@ -272559,11 +272599,7 @@ var init_AIDriver = __esmMin((() => {
 						const range = SkillInfo[skillId].AttackRange[level - 1] + 1 || homun.attack_range || 1;
 						if (homun.position[0] > 0 && homun.position[1] > 0 && target.position[0] > 0 && target.position[1] > 0) {
 							if (range >= distance(homun.position[0], homun.position[1], target.position[0], target.position[1])) {
-								if (homun && [
-									0,
-									1,
-									4
-								].includes(homun.action)) {
+								if (canUseAISkill(homun)) {
 									let pkt;
 									if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.USE_SKILL2();
 									else pkt = new PACKET.CZ.USE_SKILL();
@@ -276019,7 +276055,7 @@ function getRotationAtFrame$1(keyframes, frame, animLen) {
 * SLERP quaternion interpolation
 */
 function slerpQuat$1(q1, q2, t) {
-	const result = new Float32Array(4);
+	const result = /* @__PURE__ */ new Float32Array(4);
 	let dot = q1[0] * q2[0] + q1[1] * q2[1] + q1[2] * q2[2] + q1[3] * q2[3];
 	let q2Sign = 1;
 	if (dot < 0) {
@@ -277288,7 +277324,7 @@ var init_RsmEffect = __esmMin((() => {
 	init_Client();
 	init_Model();
 	_program$17 = null;
-	_normalMat = new Float32Array(9);
+	_normalMat = /* @__PURE__ */ new Float32Array(9);
 	mat4$15 = gl_matrix_default.mat4;
 	mat3$1 = gl_matrix_default.mat3;
 	quat = gl_matrix_default.quat;
@@ -277325,8 +277361,8 @@ var init_RsmEffect = __esmMin((() => {
 			this.animLen = 0;
 			this.fps = 30;
 			this.globalParameters = {
-				position: new Float32Array(3),
-				rotation: new Float32Array(3),
+				position: /* @__PURE__ */ new Float32Array(3),
+				rotation: /* @__PURE__ */ new Float32Array(3),
 				scale: new Float32Array([
 					-.075,
 					-.075,
@@ -278384,7 +278420,7 @@ var init_ThreeDEffect = __esmMin((() => {
 					renderer.color[2] = this.blue;
 					renderer.color[3] = alpha;
 					const layer = layers[i];
-					const ctE = new Int16Array(2);
+					const ctE = /* @__PURE__ */ new Int16Array(2);
 					ctE[0] = 0;
 					ctE[1] = 0;
 					if (animations.pos.length) {
@@ -279715,8 +279751,8 @@ var init_SignboardManager = __esmMin((() => {
 	signboards = [];
 	mat4$13 = gl_matrix_default.mat4;
 	vec4$6 = gl_matrix_default.vec4;
-	_pos$7 = new Float32Array(4);
-	_size$6 = new Float32Array(2);
+	_pos$7 = /* @__PURE__ */ new Float32Array(4);
+	_size$6 = /* @__PURE__ */ new Float32Array(2);
 	SignboardManager = class {
 		/**
 		* Adds a new signboard to the manager.
@@ -280476,7 +280512,7 @@ var init_Damage = __esmMin((() => {
 			this.entity = null;
 			this.startTick = 0;
 			this.type = 0;
-			this.color = new Float32Array(4);
+			this.color = /* @__PURE__ */ new Float32Array(4);
 			this.delay = 1500;
 			this.texture = null;
 			this.width = 0;
@@ -283688,7 +283724,7 @@ function onWorldComplete(data) {
 		1 - (1 - this.light.diffuse[1]) * (1 - this.light.ambient[1]),
 		1 - (1 - this.light.diffuse[2]) * (1 - this.light.ambient[2])
 	]);
-	this.light.direction = new Float32Array(3);
+	this.light.direction = /* @__PURE__ */ new Float32Array(3);
 	const longitude = this.light.longitude * Math.PI / 180;
 	const latitude = this.light.latitude * Math.PI / 180;
 	const dirMat4 = mat4$12.create();
@@ -283852,7 +283888,7 @@ var init_MapRenderer = __esmMin((() => {
 	init_Upsampling();
 	init_WebGL();
 	mat4$12 = gl_matrix_default.mat4;
-	_pos$6 = new Uint16Array(2);
+	_pos$6 = /* @__PURE__ */ new Uint16Array(2);
 	MapRenderer = class MapRenderer {
 		/**
 		* @var {string} current map's name
@@ -285669,8 +285705,8 @@ var vec4$5, _pos$5, _size$5, Cast;
 var init_EntityCast = __esmMin((() => {
 	init_gl_matrix();
 	vec4$5 = gl_matrix_default.vec4;
-	_pos$5 = new Float32Array(4);
-	_size$5 = new Float32Array(2);
+	_pos$5 = /* @__PURE__ */ new Float32Array(4);
+	_size$5 = /* @__PURE__ */ new Float32Array(2);
 	Cast = class {
 		constructor() {
 			this.tick = 0;
@@ -285778,8 +285814,8 @@ var init_EntityLife = __esmMin((() => {
 	init_gl_matrix();
 	init_DBManager();
 	vec4$4 = gl_matrix_default.vec4;
-	_pos$4 = new Float32Array(4);
-	_size$4 = new Float32Array(2);
+	_pos$4 = /* @__PURE__ */ new Float32Array(4);
+	_size$4 = /* @__PURE__ */ new Float32Array(2);
 	Life = class {
 		constructor() {
 			this.hp = -1;
@@ -285910,8 +285946,8 @@ var init_EntityDisplay = __esmMin((() => {
 	init_gl_matrix();
 	init_Map();
 	vec4$3 = gl_matrix_default.vec4;
-	_pos$3 = new Float32Array(4);
-	_size$3 = new Float32Array(2);
+	_pos$3 = /* @__PURE__ */ new Float32Array(4);
+	_size$3 = /* @__PURE__ */ new Float32Array(2);
 	dpr = window.devicePixelRatio || 1;
 	procCanvas = document.createElement("canvas");
 	procCtx = procCanvas.getContext("2d", { willReadFrequently: true });
@@ -286150,8 +286186,8 @@ var init_EntityDialog = __esmMin((() => {
 	init_gl_matrix();
 	init_Events();
 	vec4$2 = gl_matrix_default.vec4;
-	_pos$2 = new Float32Array(4);
-	_size$2 = new Float32Array(2);
+	_pos$2 = /* @__PURE__ */ new Float32Array(4);
+	_size$2 = /* @__PURE__ */ new Float32Array(2);
 	Dialog = class {
 		constructor() {
 			this.text = "";
@@ -287522,8 +287558,8 @@ function WalkStructure() {
 	this.prevTick = 0;
 	this.dist = 0;
 	this.path = new Int16Array(PathFinding_default.MAX_WALKPATH * 2);
-	this.pos = new Float32Array(3);
-	this.lastPos = new Float32Array(3);
+	this.pos = /* @__PURE__ */ new Float32Array(3);
+	this.lastPos = /* @__PURE__ */ new Float32Array(3);
 	this.onEnd = null;
 	this.index = 0;
 	this.total = 0;
@@ -288328,7 +288364,7 @@ var init_EntityRender = __esmMin((() => {
 		};
 	})();
 	renderEntity = (function renderEntityClosure() {
-		const _position = new Int32Array(2);
+		const _position = /* @__PURE__ */ new Int32Array(2);
 		return function _renderEntity() {
 			if (this.hideEntity) return;
 			SpriteRenderer.shadow = Ground_default.getShadowFactor(this.position[0], this.position[1]);
@@ -288477,7 +288513,7 @@ var init_EntityRender = __esmMin((() => {
 		};
 	})();
 	renderElement = (function renderElementClosure() {
-		const _position = new Int32Array(2);
+		const _position = /* @__PURE__ */ new Int32Array(2);
 		return function _renderElement(entity, files, type, position, is_main) {
 			let isBlendModeOne = false;
 			if (typeof files === "undefined" || !files.spr || !files.act) return;
@@ -288671,8 +288707,8 @@ var init_EntityRoom = __esmMin((() => {
 	init_DBManager();
 	init_EntityRoom$1();
 	vec4$1 = gl_matrix_default.vec4;
-	_pos$1 = new Float32Array(4);
-	_size$1 = new Float32Array(2);
+	_pos$1 = /* @__PURE__ */ new Float32Array(4);
+	_size$1 = /* @__PURE__ */ new Float32Array(2);
 	Room = class Room {
 		/**
 		* Constants
@@ -289218,8 +289254,8 @@ var init_EntityAttachments = __esmMin((() => {
 			1
 		])
 	};
-	_effectColor = new Float32Array(4);
-	_position = new Int32Array(2);
+	_effectColor = /* @__PURE__ */ new Float32Array(4);
+	_position = /* @__PURE__ */ new Int32Array(2);
 	AttachmentManager = class {
 		constructor(entity) {
 			this.list = [];
@@ -289240,7 +289276,7 @@ var init_EntityAttachments = __esmMin((() => {
 			attachment.head = attachment.head || false;
 			attachment.position = false;
 			if (attachment.yOffset || attachment.xOffset) {
-				attachment.position = new Int16Array(2);
+				attachment.position = /* @__PURE__ */ new Int16Array(2);
 				if (attachment.xOffset) attachment.position[0] = attachment.xOffset;
 				if (attachment.yOffset) attachment.position[1] = attachment.yOffset;
 			}
@@ -289601,8 +289637,8 @@ var vec4, _pos, _size, Emblem;
 var init_EntityEmblem = __esmMin((() => {
 	init_gl_matrix();
 	vec4 = gl_matrix_default.vec4;
-	_pos = new Float32Array(4);
-	_size = new Float32Array(2);
+	_pos = /* @__PURE__ */ new Float32Array(4);
+	_size = /* @__PURE__ */ new Float32Array(2);
 	Emblem = class {
 		constructor() {
 			this.emblem = null;
@@ -292686,8 +292722,8 @@ var init_Level99Bubble = __esmMin((() => {
 				const column = {
 					life: true,
 					anchors: [],
-					phases: new Float32Array(16),
-					phaseTargets: new Float32Array(16)
+					phases: /* @__PURE__ */ new Float32Array(16),
+					phaseTargets: /* @__PURE__ */ new Float32Array(16)
 				};
 				for (let p = 0; p < 16; p++) {
 					column.phases[p] = randRange(0, 360);
@@ -292699,7 +292735,7 @@ var init_Level99Bubble = __esmMin((() => {
 				}
 				this.columns.push(column);
 			}
-			this.quadData = new Float32Array(30);
+			this.quadData = /* @__PURE__ */ new Float32Array(30);
 			this.tmpPoints = [
 				[
 					0,
@@ -316137,7 +316173,7 @@ var init_MapControl = __esmMin((() => {
 	init_Events();
 	init_CaptchaSelector();
 	init_ScreenShot();
-	_rightClickPosition = new Int16Array(2);
+	_rightClickPosition = /* @__PURE__ */ new Int16Array(2);
 	MapControl = class {
 		/**
 		* Callback used when requesting to move somewhere
@@ -340068,7 +340104,7 @@ var init_spark_md5_min = __esmMin((() => {
 				271733878
 			], i, length, tail, tmp, lo, hi;
 			for (i = 64; i <= n; i += 64) md5cycle(state, md5blk_array(a.subarray(i - 64, i)));
-			a = i - 64 < n ? a.subarray(i - 64) : new Uint8Array(0);
+			a = i - 64 < n ? a.subarray(i - 64) : /* @__PURE__ */ new Uint8Array(0);
 			length = a.length;
 			tail = [
 				0,
@@ -340254,7 +340290,7 @@ var init_spark_md5_min = __esmMin((() => {
 			var buff = concatenateArrayBuffers(this._buff.buffer, arr, true), length = buff.length, i;
 			this._length += arr.byteLength;
 			for (i = 64; i <= length; i += 64) md5cycle(this._hash, md5blk_array(buff.subarray(i - 64, i)));
-			this._buff = i - 64 < length ? new Uint8Array(buff.buffer.slice(i - 64)) : new Uint8Array(0);
+			this._buff = i - 64 < length ? new Uint8Array(buff.buffer.slice(i - 64)) : /* @__PURE__ */ new Uint8Array(0);
 			return this;
 		};
 		SparkMD5.ArrayBuffer.prototype.end = function(raw) {
@@ -340284,7 +340320,7 @@ var init_spark_md5_min = __esmMin((() => {
 			return ret;
 		};
 		SparkMD5.ArrayBuffer.prototype.reset = function() {
-			this._buff = new Uint8Array(0);
+			this._buff = /* @__PURE__ */ new Uint8Array(0);
 			this._length = 0;
 			this._hash = [
 				1732584193,
@@ -342866,7 +342902,7 @@ function onConnectionRequest(username, password) {
 				Network.sendPacket(pkt);
 			}
 			if (Configs.get("loginMode") == "han") {
-				const paddedPassword = new Uint8Array(24);
+				const paddedPassword = /* @__PURE__ */ new Uint8Array(24);
 				for (let i = 0; i < password.length; i++) paddedPassword[i] = password.charCodeAt(i);
 				const encryptedPassword = Rijndael.encrypt(paddedPassword, Configs.get("rijndaelKey"), Configs.get("rijndaelChain"), 24, "ecb");
 				if (!encryptedPassword) {
